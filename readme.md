@@ -1,6 +1,8 @@
 # About
 A very simple app made using [Slim](https://github.com/slimphp/Slim) framework to help me build a better vocabulary
 
+![Meanings screenshot](http://i.imgur.com/lCHNVxx.png)
+
 # Setup
 - Clone repo
 - Install dependencies using `php composer.phar install`
