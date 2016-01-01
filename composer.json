@@ -1,0 +1,12 @@
+{
+  "respositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/slimphp/Slim-Flash"
+    }
+  ],
+  "require": {
+    "slim/slim": "3.0.0",
+    "slim/flash": "dev-master"
+  }
+}
