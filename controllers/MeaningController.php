@@ -44,7 +44,7 @@ class MeaningController extends Controller{
             $meaning = $this->request->getParam( 'meaning' );
 
             if( empty( $word ) || empty( $meaning ) ){
-                $this->container->flash->addMessage( '', array( 'type' => 'error', 'msg' => 'Empty fields' ) );
+                $this->addError( 'Empty fields' );
                 return $this->response->withRedirect( '/edit/' . $id );
             }
 
@@ -57,14 +57,14 @@ class MeaningController extends Controller{
                 $query->execute( array( 'id' => $id ) );
                 $row = $query->fetch( PDO::FETCH_OBJ );
 
-                $this->container->flash->addMessage( '', array( 'type' => 'success', 'msg' => 'Meaning updated' ) );
+                $this->addSuccess( 'Meaning updated' );
                 return $this->response->withRedirect( '/' );
             }
 
             $query = $this->pdo->prepare( 'INSERT INTO meanings(word, meaning, created) VALUES(:word, :meaning, :date)' );
             $query->execute( array( 'word' => $word, 'meaning' => $meaning, 'date' => date( 'Y-m-d H:i:s' ) ) );
 
-            $this->container->flash->addMessage( '', array( 'type' => 'success', 'msg' => 'Meaning inserted' ) );
+            $this->addSuccess( 'Meaning added' );
             return $this->response->withRedirect( '/' );
         }
 
@@ -76,7 +76,7 @@ class MeaningController extends Controller{
         $query = $this->pdo->prepare( "DELETE FROM meanings WHERE id=:id" );
         $query->execute( array( 'id' => $id ) );
 
-        $this->container->flash->addMessage( '', array( 'type' => 'success', 'msg' => 'Meaning deleted' ) );
+        $this->addSuccess( 'Meaning deleted' );
         return $this->response->withRedirect( '/' );
     }
 }

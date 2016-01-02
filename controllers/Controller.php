@@ -41,4 +41,13 @@ class Controller{
 
         $this->response->getBody()->write( $output );
     }
+
+    public function addSuccess( $msg ){
+        $this->container->flash->addMessage( '', array( 'type' => 'success', 'msg' => $msg ) );
+    }
+
+    public function addError( $msg ){
+        $this->container->flash->addMessage( '', array( 'type' => 'error', 'msg' => $msg ) );
+    }
+
 }
