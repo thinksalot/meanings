@@ -21,7 +21,7 @@ class Controller{
 
     }
 
-    public function renderView( $view, $data ){
+    public function parseView( $view, $data ){
 
         ob_start();
         extract( $data );
@@ -32,7 +32,7 @@ class Controller{
 
     public function render( $template, $data ){
 
-        $view = $this->renderView( $template, $data );
+        $view = $this->parseView( $template, $data );
 
         ob_start();
         extract( array( 'view' => $view ) );
