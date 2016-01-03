@@ -39,4 +39,10 @@ $app->get( '/delete/{id}', function( $request, $response, $args ) use( $app ){
     return call_user_func_array( array( $controller, 'delete' ), $args );
 } );
 
+$app->get( '/import', function( $request, $response, $args ) use( $app ){
+
+    $controller = new MeaningController( $app );
+    return call_user_func_array( array( $controller, 'import' ), $args );
+} );
+
 $app->run();

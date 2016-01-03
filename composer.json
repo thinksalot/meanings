@@ -7,6 +7,12 @@
   ],
   "require": {
     "slim/slim": "3.0.0",
-    "slim/flash": "dev-master"
+    "slim/flash": "dev-master",
+    "php-curl-class/php-curl-class" : "4.6.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "lib"
+    }
   }
 }
