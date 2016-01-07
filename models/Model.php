@@ -47,7 +47,7 @@ class Model{
 
         $list = array();
 
-        foreach( $query->fetchAll( PDO::FETCH_OBJ ) as $item ){
+        foreach( $query->fetchAll( PDO::FETCH_ASSOC ) as $item ){
             $list[] = self::fromArray( $item );
         }
 
