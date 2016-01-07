@@ -1,3 +1,40 @@
+@media (min-width: 1200px) {
+    .container{
+        max-width: 740px;
+    }
+}
+
+body{
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.header{
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.nav{
+  margin-top: 25px;
+}
+
+.nav a{
+  padding: 10px 0px 10px 15px;
+}
+
+.nav a.dropdown-toggle{
+  cursor: pointer;
+}
+
+.nav .open>a{
+  background-color: white !important;
+}
+
+li:hover{
+  background-color: white !important;
+}
+
 .items .item_details{
   float:left;
   width: 100%;

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Custom style -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
@@ -29,12 +29,25 @@
   </head>
   <body>
         <div class="container">
+            <div class="header clearfix">
+                <div class="nav pull-right">
+                    <a href="/">Home</a>
 
-            <div class="page-header">
-                <h1>Meanings</h1>
+                    <div class="dropdown pull-right">
+                        <a class="dropdown-toggle" type="button" id="navdropdown" data-toggle="dropdown">
+                            Meaning
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="navdropdown">
+                            <li><a href="/edit/new">Add</a></li>
+                            <li><a href="/import">Import</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <h3 class="text-muted">Meanings</h3>
             </div>
 
-            <?php include( 'nav.php' ); ?>
             <?php include( 'flash-messages.php' ); ?>
             
             <?= $view ?>
