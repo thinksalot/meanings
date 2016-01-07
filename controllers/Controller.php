@@ -3,7 +3,6 @@
 class Controller{
 
     protected $app = NULL;
-    protected $pdo = NULL;
 
     protected $container = NULL;
     protected $response = NULL;
@@ -15,10 +14,6 @@ class Controller{
         $this->container = $app->getContainer();
         $this->response = $this->container->get( 'response' );
         $this->request = $this->container->get( 'request' );
-
-        $dsn = 'mysql:dbname=' . DB_NAME . ';host=' . DB_HOST . ';';
-        $this->pdo = new PDO( $dsn , DB_USER, DB_PASSWORD );
-
     }
 
     public function parseView( $view, $data ){
@@ -49,5 +44,4 @@ class Controller{
     public function addError( $msg ){
         $this->container->flash->addMessage( '', array( 'type' => 'error', 'msg' => $msg ) );
     }
-
 }

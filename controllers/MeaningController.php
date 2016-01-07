@@ -4,17 +4,13 @@ class MeaningController extends Controller{
 
     public function index(){
 
-        $query = $this->pdo->query( 'SELECT * FROM meanings' );
-        $words = $query->fetchAll( PDO::FETCH_OBJ );
-
+        $words = Meaning::query( 'SELECT * FROM meanings' );
         $this->render( 'meaning/index.php', [ 'words' => $words ] );
     }
 
     public function view( $id ){
 
-        $query = $this->pdo->prepare( "SELECT * FROM meanings WHERE id=:id" );
-        $query->execute( array( 'id' => $id ) );
-        $row = $query->fetch( PDO::FETCH_OBJ );
+        $row = Meaning::findOne( array( 'id' => $id ) );
 
         if( !$row ){
             return $this->response->withRedirect( '/' );
@@ -29,9 +25,7 @@ class MeaningController extends Controller{
 
         if( $id != 'new' ){
 
-            $query = $this->pdo->prepare( "SELECT * FROM meanings WHERE id=:id" );
-            $query->execute( array( 'id' => $id ) );
-            $row = $query->fetch( PDO::FETCH_OBJ );
+            $row = Meaning::findOne( array( 'id' => $id ) );
 
             if( !$row ){
                 return $this->response->withRedirect( '/' );
@@ -50,19 +44,20 @@ class MeaningController extends Controller{
 
             if( $row ){
 
-                $query = $this->pdo->prepare( 'UPDATE meanings SET word=:word, meaning=:meaning WHERE id=:id' );
-                $query->execute( array( 'word' => $word, 'meaning' => $meaning, 'id' => $id ) );
-
-                $query = $this->pdo->prepare( "SELECT * FROM meanings WHERE id=:id" );
-                $query->execute( array( 'id' => $id ) );
-                $row = $query->fetch( PDO::FETCH_OBJ );
+                $row->update( array(
+                    'word'    => $word    ,
+                    'meaning' => $meaning
+                ) );
 
                 $this->addSuccess( 'Meaning updated' );
                 return $this->response->withRedirect( '/' );
             }
 
-            $query = $this->pdo->prepare( 'INSERT INTO meanings(word, meaning, created) VALUES(:word, :meaning, :date)' );
-            $query->execute( array( 'word' => $word, 'meaning' => $meaning, 'date' => date( 'Y-m-d H:i:s' ) ) );
+            $insertId = Meaning::insert( array(
+                'word'    => $word                 ,
+                'meaning' => $meaning              ,
+                'created' => date( 'Y-m-d H:i:s' )
+            ) );
 
             $this->addSuccess( 'Meaning added' );
             return $this->response->withRedirect( '/' );
@@ -73,10 +68,20 @@ class MeaningController extends Controller{
 
     public function delete( $id ){
 
-        $query = $this->pdo->prepare( "DELETE FROM meanings WHERE id=:id" );
-        $query->execute( array( 'id' => $id ) );
+        $row = Meaning::findOne( array( 'id' => $id ) );
 
-        $this->addSuccess( 'Meaning deleted' );
+        if( !$row ){
+            $this->addError( 'Meaning not found' );
+            return $this->response->withRedirect( '/' );
+        }
+
+        if( $row->delete() ){
+            $this->addSuccess( 'Meaning deleted' );
+        }
+        else{
+            $this->addError( 'Error deleting' );
+        }
+
         return $this->response->withRedirect( '/' );
     }
 
@@ -126,15 +131,17 @@ class MeaningController extends Controller{
 
         foreach( $terms as $term ){
 
-            $query = $this->pdo->prepare( 'SELECT * FROM meanings WHERE word=:term' );
-            $query->execute( array( 'term' => $term->term ) );
+            $row = Meaning::findOne( array( 'word' => $term->term ) );
 
-            if( $query->rowCount() ){
+            # meaning already exists
+            if( $row ){
                 continue;
             }
 
-            $query = $this->pdo->prepare( 'INSERT INTO meanings (word, meaning) VALUES(:term, :definition)' );
-            $query->execute( array( 'term' => $term->term, 'definition' => $term->definition ) );
+            $insertId = Meaning::insert( array(
+                'word'    => $term->term       ,
+                'meaning' => $term->definition
+            ) );
 
             $insertCount++;
         }
