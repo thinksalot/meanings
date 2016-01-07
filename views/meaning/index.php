@@ -9,10 +9,10 @@
         </div>
         <div class="actions">
             <div class="buttons">
-                <a class='btn btn-default btn-xs' href="/edit/<?= $word->id ?>">
+                <a class='btn btn-default btn-xs' href="edit/<?= $word->id ?>">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a class='btn btn-default btn-xs' href="/delete/<?= $word->id ?>">
+                <a class='btn btn-default btn-xs' href="delete/<?= $word->id ?>">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </div>
