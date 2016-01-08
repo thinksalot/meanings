@@ -1,3 +1,11 @@
+<div class="sort-bar">
+    <div class="sort pull-left">
+        <div class="btn-group">
+            <a href="" class="btn <?= $sorting == "created" ? 'btn-primary' : 'btn-default' ?> btn-xs">Oldest first</a>
+            <a href="?sort=word" class="btn <?= $sorting == "word" ? 'btn-primary' : 'btn-default' ?>  btn-xs">Alphabetical</a>
+        </div>
+    </div>
+</div>
 <div class="items">
     <?php foreach( $words as $word ): ?>
     <div class="item_details">
