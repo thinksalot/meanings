@@ -35,6 +35,20 @@ li:hover{
   background-color: white !important;
 }
 
+.sort-bar{
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.sort-bar .sort{
+  margin-top: 5px;
+  width: 65%;
+}
+
+.sort-bar .search{
+  width: 33%;
+}
+
 .items .item_details{
   float:left;
   width: 100%;

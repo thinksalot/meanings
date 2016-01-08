@@ -5,6 +5,14 @@
             <a href="?sort=word" class="btn <?= $sorting == "word" ? 'btn-primary' : 'btn-default' ?>  btn-xs">Alphabetical</a>
         </div>
     </div>
+    <div class="search pull-right">
+        <form class='form form-inline' action="search" method="get">
+            <div class="form-group form-group-sm">
+                <input type="text" name="name" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default btn-sm">Search</button>
+        </form>
+    </div>
 </div>
 <div class="items">
     <?php foreach( $words as $word ): ?>

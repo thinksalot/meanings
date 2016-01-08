@@ -4,8 +4,11 @@ class MeaningController extends Controller{
 
     public function index(){
 
-        $words = Meaning::query( 'SELECT * FROM meanings' );
-        $this->render( 'meaning/index.php', [ 'words' => $words ] );
+        $sortBy = strtolower( $this->request->getParam( 'sort' ) );
+        $sortBy = in_array( $sortBy, array( 'created', 'word' ) ) ? $sortBy : 'created';
+
+        $words = Meaning::query( 'SELECT * FROM meanings ORDER BY ' . $sortBy . ' ASC' );
+        $this->render( 'meaning/index.php', [ 'words' => $words, 'sorting' => $sortBy ] );
     }
 
     public function view( $id ){
