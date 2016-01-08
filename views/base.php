@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= isset( $title ) ? $title : 'Meanings' ?></title>
     <base href="<?= SITE_URL ?>">
 
     <!-- Latest compiled and minified CSS -->
@@ -49,15 +50,9 @@
                 <h3 class="text-muted">Meanings</h3>
             </div>
 
-            <?php include( 'flash-messages.php' ); ?>
-            
             <?= $view ?>
 
         </div>
   </body>
-    <script>
-        $(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+    <script src="js/script.js"></script>
 </html>

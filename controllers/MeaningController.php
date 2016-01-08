@@ -8,7 +8,20 @@ class MeaningController extends Controller{
         $sortBy = in_array( $sortBy, array( 'created', 'word' ) ) ? $sortBy : 'created';
 
         $words = Meaning::query( 'SELECT * FROM meanings ORDER BY ' . $sortBy . ' ASC' );
-        $this->render( 'meaning/index.php', [ 'words' => $words, 'sorting' => $sortBy ] );
+        $this->render( 'meaning/index.php', [ 'words' => $words, 'sorting' => $sortBy, 'title' => 'Index' ] );
+    }
+
+    public function search( $keyword ){
+
+        $sortBy = strtolower( $this->request->getParam( 'sort' ) );
+        $sortBy = in_array( $sortBy, array( 'created', 'word' ) ) ? $sortBy : 'created';
+
+        $words = Meaning::query(
+            "SELECT * FROM meanings WHERE word LIKE ? ORDER BY " . $sortBy . " ASC",
+            array( '%' . $keyword . '%' )
+        );
+
+        $this->render( 'meaning/index.php', [ 'words' => $words, 'sorting' => $sortBy, 'keyword' => $keyword ] );
     }
 
     public function view( $id ){

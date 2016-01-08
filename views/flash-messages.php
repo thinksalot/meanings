@@ -1,11 +1,17 @@
 <?php
     $messages = $this->container->flash->getMessage( '' );
+    $typeClassMap = array(
+        'error' => 'alert-danger',
+        'success' => 'alert-success',
+        'info' => 'alert-info'
+    );
+
     if( count( $messages ) ):
-        foreach( $this->container->flash->getMessage( '' ) as $message ):
+        foreach( $messages as $message ):
 ?>
-    <div class="alert <?= $message['type'] == 'error' ? 'alert-danger' : 'alert-success' ?>" role="alert">
+    <div class="alert <?= isset( $typeClassMap[ $message['type'] ] ) ? $typeClassMap[ $message['type'] ] : $typeClassMap['info'] ?>" role="alert">
         <?= $message['msg'] ?>
     </div>
-    <?php endforeach; ?>
-<?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 

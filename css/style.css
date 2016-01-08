@@ -42,11 +42,11 @@ li:hover{
 
 .sort-bar .sort{
   margin-top: 5px;
-  width: 65%;
+  margin-bottom: 10px;
 }
 
 .sort-bar .search{
-  width: 33%;
+  width: 40%;
 }
 
 .items .item_details{
@@ -89,4 +89,12 @@ li:hover{
 
 .items .item_details .actions a{
   margin-bottom: 8px;
+}
+
+.vmid{
+  vertical-align: middle;
+}
+
+.mar-r-3{
+  margin-right:3px;
 }

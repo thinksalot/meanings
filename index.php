@@ -15,33 +15,29 @@ $container = $app->getContainer();
 $container['view'] = function( $container ){ return new \Slim\Views\PhpRenderer( 'views/' ); };
 $container['flash'] = function(){ return new \Slim\Flash\Messages(); };
 
-$app->get( '/', function( $request, $response, $args ) use( $app ){
+$controller = new MeaningController( $app );
 
-    $controller = new MeaningController( $app );
+$app->get( '/', function( $request, $response, $args ) use( $controller ){
     return $controller->index();
 });
 
-$app->get( '/view/{id}', function( $request, $response, $args ) use( $app ){
+$app->get( '/search/{keyword}', function( $request, $response, $args ) use( $controller ){
+    return call_user_func_array( array( $controller, 'search' ), $args );
+});
 
-    $controller = new MeaningController( $app );
+$app->get( '/view/{id}', function( $request, $response, $args ) use( $controller ){
     return call_user_func_array( array( $controller, 'view' ), $args );
 } );
 
-$app->map( ['GET', 'POST'], '/edit/{id}', function( $request, $response, $args ) use( $app ){
-
-    $controller = new MeaningController( $app );
+$app->map( ['GET', 'POST'], '/edit/{id}', function( $request, $response, $args ) use( $controller ){
     return call_user_func_array( array( $controller, 'edit' ), $args );
 } );
 
-$app->get( '/delete/{id}', function( $request, $response, $args ) use( $app ){
-
-    $controller = new MeaningController( $app );
+$app->get( '/delete/{id}', function( $request, $response, $args ) use( $controller ){
     return call_user_func_array( array( $controller, 'delete' ), $args );
 } );
 
-$app->get( '/import', function( $request, $response, $args ) use( $app ){
-
-    $controller = new MeaningController( $app );
+$app->get( '/import', function( $request, $response, $args ) use( $controller ){
     return call_user_func_array( array( $controller, 'import' ), $args );
 } );
 
