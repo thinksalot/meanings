@@ -36,11 +36,29 @@
                 <a class='btn btn-default btn-xs' href="edit/<?= $word->id ?>">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a class='btn btn-default btn-xs' href="delete/<?= $word->id ?>">
+                <a data-toggle="modal" data-target="#delete-modal" data-url="delete/<?= $word->id ?>" id='delete' class='btn btn-default btn-xs' href="#">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </div>
         </div>
     </div>
     <?php endforeach; ?>
+</div>
+
+<div id="delete-modal" class="modal fade" tabIndex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+                <h4 class="modal-title">Delete</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this term ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a id="ok" class="btn btn-primary" href="#">Ok</a>
+            </div>
+        </div>
+    </div>
 </div>

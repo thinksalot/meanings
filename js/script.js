@@ -13,4 +13,10 @@ $(function(){
 
     window.location.href = window.location.origin+action+keyword;
   });
+
+  $('#delete-modal').on('show.bs.modal', function(event){
+    var $button = $(event.relatedTarget);
+    var url = $button.data('url');
+    $(this).find('#ok').attr({href:url});
+  });
 });
