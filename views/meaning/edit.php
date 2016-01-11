@@ -1,7 +1,7 @@
 
-<div class="panel panel-info">
+<div class="panel panel-default">
     <div class="panel-heading">
-        <?= isset( $item->id ) ? 'Edit': 'Add' ?>
+        <?= isset( $item->id ) ? 'Edit': 'Add' ?> meaning
     </div>
     <div class="panel-body">
         <form class="form-horizontal" action="" method="post">
