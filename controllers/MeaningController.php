@@ -163,7 +163,8 @@ class MeaningController extends Controller{
 
         $tokenRow = Setting::getAccessToken();
         $quizlet  = new Quizlet;
-        $terms    = $quizlet->getTerms();
+        $quizlet->setAccessToken( $tokenRow->value );
+        $terms = $quizlet->getTerms();
 
         if( empty( $terms ) ){
             $this->addSuccess( '0 terms downloaded' );

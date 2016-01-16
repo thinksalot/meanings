@@ -6,6 +6,8 @@ class Quizlet{
 
     public static $tokenUrl = 'https://api.quizlet.com/oauth/token';
 
+    protected $_accessToken = NULL;
+
     protected function _getCurl(){
 
         $curl = new \Curl\Curl();
@@ -30,10 +32,14 @@ class Quizlet{
         return $curl->response->access_token;
     }
 
+    public function setAccessToken( $token ){
+        $this->_accessToken = $token;
+    }
+
     public function getTerms(){
 
         $curl = $this->_getCurl();
-        $curl->setHeader( 'Authorization' , 'Bearer ' . $_SESSION['access_token'] );
+        $curl->setHeader( 'Authorization' , 'Bearer ' . $this->_accessToken );
         $curl->get( 'https://api.quizlet.com/2.0/sets/' . QUIZLET_SET_ID . '/terms' );
 
         if( $curl->error ){
