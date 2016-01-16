@@ -3,6 +3,7 @@
 class Model{
 
     const TABLE = '';
+    const PRIMARY_KEY = 'id';
 
     protected static $_pdo = NULL;
 
@@ -61,6 +62,10 @@ class Model{
             return ':' . $key;
         }, $keys );
 
+        foreach( $keys as $id => $value ){
+            $keys[$id] = '`' . $value . '`';
+        }
+
         $sql = "INSERT INTO " . static::TABLE;
         $sql .= "(" . implode( ',', $keys ) .")";
         $sql .= " VALUES(" . implode( ',', $bind ) . ")";
@@ -102,9 +107,9 @@ class Model{
         }
 
         $sql .= implode( ',', $list );
-        $sql .= " WHERE `id`=:id";
+        $sql .= " WHERE `" . static::PRIMARY_KEY . "`=:" . static::PRIMARY_KEY ;
 
-        self::_queryPDO( $sql, $data + array( 'id' => $this->id ) );
+        self::_queryPDO( $sql, $data + array( static::PRIMARY_KEY => $this->{static::PRIMARY_KEY} ) );
 
         foreach( $data as $key => $value ){
             $this->$key = $value;

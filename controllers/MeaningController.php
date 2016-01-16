@@ -101,42 +101,69 @@ class MeaningController extends Controller{
         return $this->response->withRedirect( '/' );
     }
 
-    public function authorize( $redirectTo = '/' ){
+    public function api(){
 
-        $code = $this->request->getParam( 'code' );
+        # saves credentials
+        $hasCredentials = !empty( QUIZLET_CLIENT_ID ) && !empty( QUIZLET_CLIENT_SECRET );
+        $hasSetId = !empty( QUIZLET_SET_ID );
+        $tokenRow = Setting::getAccessToken();
+
+        # quizlet api auth params
+        $code  = $this->request->getParam( 'code' );
         $state = isset( $_SESSION['state'] ) ? $_SESSION['state'] : NULL;
 
+        # redirected from quizlet api
         if( !empty( $code ) && $this->request->getParam( 'state') == $state ){
 
             $quizlet = new Quizlet;
-            $accessToken = $quizlet->getAccessToken( $code, SITE_URL . $redirectTo );
+            $accessToken = $quizlet->getAccessToken( $code, SITE_URL . 'api');
             $_SESSION['access_token'] = $accessToken;
-            return $this->response->withRedirect( $redirectTo );
+
+            if( $tokenRow ){
+                $tokenRow->update( array( 'value' => $accessToken ) );
+            }
+            else{
+                Setting::insert( array(
+                    'key'   => 'quizlet_access_token' ,
+                    'value' => $accessToken
+                ));
+            }
+            return $this->response->withRedirect( 'api' );
         }
 
-        $_SESSION['state'] = md5( mt_rand().microtime( true ) );
+        if( $this->request->isPost() && ( $hasCredentials && $hasSetId ) ){
 
-        $urlParams = array(
-            'client_id'     => QUIZLET_CLIENT_ID        ,
-            'client_secret' => QUIZLET_CLIENT_SECRET    ,
-            'response_type' => 'code'                   ,
-            'scope'         => 'read write_set'         ,
-            'state'         => $_SESSION['state']       ,
-            'redirect_uri'  => SITE_URL . $redirectTo
+            $_SESSION['state'] = md5( mt_rand().microtime( true ) );
+
+            $urlParams = array(
+                'client_id'     => QUIZLET_CLIENT_ID        ,
+                'client_secret' => QUIZLET_CLIENT_SECRET    ,
+                'response_type' => 'code'                   ,
+                'scope'         => 'read write_set'         ,
+                'state'         => $_SESSION['state']       ,
+                'redirect_uri'  => SITE_URL . 'api'
+            );
+
+            $url = Quizlet::$authUrl . '?' . http_build_query( $urlParams );
+            return $this->response->withRedirect( $url );
+        }
+
+        return $this->render(
+            'meaning/api.php',
+            [ 'hasCredentials' => $hasCredentials, 'hasSetId' => $hasSetId, 'accessToken' => $tokenRow ]
         );
-
-        $url = Quizlet::$authUrl . '?' . http_build_query( $urlParams );
-        return $this->response->withRedirect( $url );
     }
 
     public function import(){
 
-        if( !isset( $_SESSION['access_token'] ) ){
-            return $this->authorize( 'import' );
+        if( !$this->_canCallApi() ){
+            $this->addError( 'Api is not setup' );
+            return $this->response->withRedirect( '/' );
         }
 
-        $quizlet = new Quizlet;
-        $terms = $quizlet->getTerms();
+        $tokenRow = Setting::getAccessToken();
+        $quizlet  = new Quizlet;
+        $terms    = $quizlet->getTerms();
 
         if( empty( $terms ) ){
             $this->addSuccess( '0 terms downloaded' );
@@ -155,8 +182,9 @@ class MeaningController extends Controller{
             }
 
             $insertId = Meaning::insert( array(
-                'word'    => $term->term       ,
-                'meaning' => $term->definition
+                'word'    => $term->term           ,
+                'meaning' => $term->definition     ,
+                'created' => date( 'Y-m-d H:i:s' )
             ) );
 
             $insertCount++;

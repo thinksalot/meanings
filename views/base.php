@@ -43,6 +43,7 @@
 
                         <ul class="dropdown-menu" aria-labelledby="navdropdown">
                             <li><a href="edit/new">Add</a></li>
+                            <li><a href="api">Api</a></li>
                             <li><a href="import">Import</a></li>
                         </ul>
                     </div>

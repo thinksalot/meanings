@@ -2,7 +2,7 @@
   "respositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/slimphp/Slim-Flash"
+      "url": "https://github.com/thinksalot/Slim-Flash"
     }
   ],
   "require": {

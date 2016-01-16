@@ -8,6 +8,20 @@ class Controller{
     protected $response = NULL;
     protected $request = NULL;
 
+    protected function _canCallApi(){
+
+        # saves credentials
+        $hasCredentials = !empty( QUIZLET_CLIENT_ID ) && !empty( QUIZLET_CLIENT_SECRET );
+        $hasSetId = !empty( QUIZLET_SET_ID );
+        $tokenRow = Setting::getAccessToken();
+
+        if( !$hasCredentials || !$hasSetId || !$tokenRow ){
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
     public function __construct( $app ){
 
         $this->app = $app;
@@ -25,7 +39,7 @@ class Controller{
         return $view;
     }
 
-    public function render( $template, $data ){
+    public function render( $template, $data = array() ){
 
         $url = (string) $this->request->getUri()->getBaseUrl()
             . $this->request->getUri()->getPath()

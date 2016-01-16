@@ -96,6 +96,14 @@ li:hover{
   vertical-align: middle;
 }
 
+.mar-t-15{
+  margin-top: 15px;
+}
+
 .mar-r-3{
+  margin-right:3px;
+}
+
+.mar-r-5{
   margin-right:3px;
 }
